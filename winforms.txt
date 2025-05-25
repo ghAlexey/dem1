@@ -1,0 +1,138 @@
+Подключение к базе данных SQL Server
+// строка подключения — указывается при инициализации формы
+string connectionString = "Data Source=DESKTOP-0DQ2BPO;Initial Catalog=WarehouseMaterials;Integrated Security=True;";
+
+// Открытие соединения
+using (SqlConnection conn = new SqlConnection(connectionString))
+{
+    conn.Open();
+    // тут ваши действия
+}
+
+Выполнение SELECT-запроса и чтение данных
+using (SqlConnection conn = new SqlConnection(connectionString))
+{
+    conn.Open();
+    string query = "SELECT MaterialID, MaterialName FROM Materials";
+    SqlCommand cmd = new SqlCommand(query, conn);
+    using (SqlDataReader reader = cmd.ExecuteReader())
+    {
+        while (reader.Read())
+        {
+            int id = (int)reader["MaterialID"];
+            string name = reader["MaterialName"].ToString();
+            // обработка данных
+        }
+    }
+}
+
+
+Вставка, обновление, удаление данных (INSERT, UPDATE, DELETE)
+using (SqlConnection conn = new SqlConnection(connectionString))
+{
+    conn.Open();
+    // INSERT
+    SqlCommand insertCmd = new SqlCommand(
+        "INSERT INTO Materials (MaterialName, MaterialTypeID, UnitID) VALUES (@name, @typeId, @unitId)", conn);
+    insertCmd.Parameters.AddWithValue("@name", "Название");
+    insertCmd.Parameters.AddWithValue("@typeId", 1);
+    insertCmd.Parameters.AddWithValue("@unitId", 1);
+    insertCmd.ExecuteNonQuery();
+
+    // UPDATE
+    SqlCommand updateCmd = new SqlCommand(
+        "UPDATE Materials SET MaterialName = @name WHERE MaterialID = @id", conn);
+    updateCmd.Parameters.AddWithValue("@name", "НовоеНазвание");
+    updateCmd.Parameters.AddWithValue("@id", 1);
+    updateCmd.ExecuteNonQuery();
+
+    // DELETE
+    SqlCommand deleteCmd = new SqlCommand("DELETE FROM Materials WHERE MaterialID = @id", conn);
+    deleteCmd.Parameters.AddWithValue("@id", 1);
+    deleteCmd.ExecuteNonQuery();
+}
+
+Заполнение DataGridView данными из базы
+using (SqlConnection conn = new SqlConnection(connectionString))
+{
+    conn.Open();
+    SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Materials", conn);
+    DataTable table = new DataTable();
+    adapter.Fill(table);
+    dataGridView1.DataSource = table;
+}
+
+Добавление/редактирование записи по кнопке
+private void buttonSave_Click(object sender, EventArgs e)
+{
+    if (string.IsNullOrWhiteSpace(textBoxName.Text))
+    {
+        MessageBox.Show("Введите название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+    }
+    using (SqlConnection conn = new SqlConnection(connectionString))
+    {
+        conn.Open();
+        SqlCommand cmd = new SqlCommand(
+            "INSERT INTO Materials (MaterialName) VALUES (@name)", conn);
+        cmd.Parameters.AddWithValue("@name", textBoxName.Text.Trim());
+        cmd.ExecuteNonQuery();
+    }
+    MessageBox.Show("Сохранено!");
+}
+
+Удаление выбранной строки из DataGridView
+private void buttonDelete_Click(object sender, EventArgs e)
+{
+    if (dataGridView1.SelectedRows.Count > 0)
+    {
+        int id = (int)dataGridView1.SelectedRows[0].Cells["MaterialID"].Value;
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("DELETE FROM Materials WHERE MaterialID = @id", conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+        }
+        MessageBox.Show("Удалено!");
+    }
+}
+
+Открытие формы для редактирования при двойном клике
+private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+{
+    if (e.RowIndex >= 0)
+    {
+        int id = (int)dataGridView1.Rows[e.RowIndex].Cells["MaterialID"].Value;
+        var editForm = new MaterialEditForm(connectionString, id);
+        if (editForm.ShowDialog() == DialogResult.OK)
+            LoadMaterials(); // обновить список
+    }
+}
+
+Обработка ошибок и безопасное выполнение кода
+try
+{
+    // действия с БД
+}
+catch (Exception ex)
+{
+    MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+}
+
+
+Переключение между формами
+private void buttonToProducts_Click(object sender, EventArgs e)
+{
+    var productForm = new ProductForm(connectionString);
+    productForm.Show();
+    this.Hide();
+}
+
+Валидация числового ввода
+private void textBoxPrice_KeyPress(object sender, KeyPressEventArgs e)
+{
+    // Разрешить только цифры, запятую и Backspace
+    if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+        e.Handled = true;
+}

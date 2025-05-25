@@ -1,0 +1,125 @@
+// ===================
+// 12. Пример реализации навигации между окнами WPF
+private void buttonOpenOtherWindow_Click(object sender, RoutedEventArgs e)
+{
+    var win = new OtherWindow();
+    win.Show();
+    this.Close(); // если нужно закрыть текущее окно
+}
+
+// ===================
+// 13. Binding с элементами управления (MVVM/код-бихайнд)
+public class Product : INotifyPropertyChanged
+{
+    public int ProductID { get; set; }
+    public string ProductName { get; set; }
+
+    // Пример для биндинга с изменением значения
+    private decimal _partnerPrice;
+    public decimal PartnerPrice
+    {
+        get => _partnerPrice;
+        set { _partnerPrice = value; OnPropertyChanged("PartnerPrice"); }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string name)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+}
+
+// ===================
+// 14. ComboBox с привязкой к справочнику (например, типы продукции)
+comboBoxType.ItemsSource = productTypesList; // productTypesList — List<ProductType>
+comboBoxType.DisplayMemberPath = "TypeName";
+comboBoxType.SelectedValuePath = "TypeID";
+comboBoxType.SelectedValue = 2; // выбирает по ID
+
+// ===================
+// 15. Установка Placeholder (подсказки) в TextBox (вариант WPF)
+<TextBox Name="textBoxSearch" Text="Введите запрос..."
+         Foreground="Gray"
+         GotFocus="TextBox_GotFocus"
+         LostFocus="TextBox_LostFocus"/>
+// код-бихайнд:
+private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+{
+    if (textBoxSearch.Text == "Введите запрос...")
+    {
+        textBoxSearch.Text = "";
+        textBoxSearch.Foreground = Brushes.Black;
+    }
+}
+private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+{
+    if (string.IsNullOrWhiteSpace(textBoxSearch.Text))
+    {
+        textBoxSearch.Text = "Введите запрос...";
+        textBoxSearch.Foreground = Brushes.Gray;
+    }
+}
+
+// ===================
+// 16. Сообщение о результате (MessageBox)
+MessageBox.Show("Данные успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+
+// ===================
+// 17. DataGrid: Получить выбранный элемент (например, Product)
+if (dataGridProducts.SelectedItem is Product selectedProduct)
+{
+    // Используем selectedProduct.ProductID и др.
+}
+
+// ===================
+// 18. Получить значение из ComboBox (ID выбранного типа)
+int selectedTypeId = (int)comboBoxType.SelectedValue;
+
+// ===================
+// 19. Сортировка и фильтрация данных в DataGrid (без MVVM)
+private void textBoxFilter_TextChanged(object sender, TextChangedEventArgs e)
+{
+    var filtered = allMaterials.Where(m => m.MaterialName.Contains(textBoxFilter.Text)).ToList();
+    dataGridMaterials.ItemsSource = filtered;
+}
+
+// ===================
+// 20. Добавить картинку/иконку в WPF (например, логотип)
+// В XAML:
+<Image Source="pack://application:,,,/Resources/logo.png" Height="60" Stretch="Uniform"/>
+// В свойствах файла logo.png установить Build Action: Resource
+
+// ===================
+// 21. Изменение стиля кнопки (цвета, закругления) через XAML
+<Button Content="Сохранить" Background="#1D476B" Foreground="White"
+        FontFamily="Constantia" FontSize="16"
+        BorderRadius="8" Padding="12,4"/>
+
+// ===================
+// 22. Диалог выбора файла (OpenFileDialog)
+var dlg = new Microsoft.Win32.OpenFileDialog();
+dlg.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+if (dlg.ShowDialog() == true)
+{
+    string filename = dlg.FileName;
+    // Дальнейшая работа с файлом
+}
+
+// ===================
+// 23. Валидация (пример для числового ввода)
+private void textBoxPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+{
+    e.Handled = !decimal.TryParse(e.Text, out _);
+}
+
+// ===================
+// 24. Пример асинхронной загрузки (async/await, если требуется)
+private async void LoadDataAsync()
+{
+    await Task.Run(() =>
+    {
+        // Тяжёлая операция (например, чтение из БД)
+        Thread.Sleep(1000);
+    });
+    MessageBox.Show("Данные загружены!");
+}

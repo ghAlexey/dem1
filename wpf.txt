@@ -1,0 +1,213 @@
+// ----------------------------------------
+// 1. Строка подключения (App.config или напрямую в коде)
+string connectionString = "Data Source=DESKTOP-0DQ2BPO;Initial Catalog=WarehouseMaterials;Integrated Security=True;";
+
+// ----------------------------------------
+// 2. Модель данных для примера (Material.cs)
+public class Material
+{
+    public int MaterialID { get; set; }
+    public string MaterialName { get; set; }
+    public decimal UnitPrice { get; set; }
+}
+
+// ----------------------------------------
+// 3. Получение данных из базы (например, для DataGrid)
+public ObservableCollection<Material> GetMaterials()
+{
+    var list = new ObservableCollection<Material>();
+    using (var conn = new SqlConnection(connectionString))
+    {
+        conn.Open();
+        var cmd = new SqlCommand("SELECT MaterialID, MaterialName, UnitPrice FROM Materials", conn);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                list.Add(new Material
+                {
+                    MaterialID = (int)reader["MaterialID"],
+                    MaterialName = reader["MaterialName"].ToString(),
+                    UnitPrice = (decimal)reader["UnitPrice"]
+                });
+            }
+        }
+    }
+    return list;
+}
+
+// ----------------------------------------
+// 4. Привязка к DataGrid (MainWindow.xaml.cs)
+private ObservableCollection<Material> materials;
+private void Window_Loaded(object sender, RoutedEventArgs e)
+{
+    materials = GetMaterials();
+    dataGridMaterials.ItemsSource = materials;
+}
+
+// ----------------------------------------
+// 5. XAML-пример DataGrid с выделением всей строки и обработкой двойного клика
+/*
+<DataGrid x:Name="dataGridMaterials"
+          AutoGenerateColumns="False"
+          SelectionMode="Single"
+          SelectionUnit="FullRow"
+          MouseDoubleClick="dataGridMaterials_MouseDoubleClick">
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="ID" Binding="{Binding MaterialID}" Width="50"/>
+        <DataGridTextColumn Header="Название" Binding="{Binding MaterialName}" Width="200"/>
+        <DataGridTextColumn Header="Цена" Binding="{Binding UnitPrice}" Width="100"/>
+    </DataGrid.Columns>
+</DataGrid>
+*/
+
+// ----------------------------------------
+// 6. Обработка двойного клика для открытия формы редактирования
+private void dataGridMaterials_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+{
+    if (dataGridMaterials.SelectedItem is Material selected)
+    {
+        var editWindow = new MaterialEditWindow(selected.MaterialID, connectionString);
+        if (editWindow.ShowDialog() == true)
+        {
+            // Перезагрузить данные после редактирования
+            materials = GetMaterials();
+            dataGridMaterials.ItemsSource = materials;
+        }
+    }
+}
+
+// ----------------------------------------
+// 7. Добавление новой записи (кнопка "Добавить")
+private void buttonAdd_Click(object sender, RoutedEventArgs e)
+{
+    var addWindow = new MaterialEditWindow(null, connectionString);
+    if (addWindow.ShowDialog() == true)
+    {
+        materials = GetMaterials();
+        dataGridMaterials.ItemsSource = materials;
+    }
+}
+
+// ----------------------------------------
+// 8. Удаление выбранной записи
+private void buttonDelete_Click(object sender, RoutedEventArgs e)
+{
+    if (dataGridMaterials.SelectedItem is Material selected)
+    {
+        var result = MessageBox.Show("Удалить материал?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (result == MessageBoxResult.Yes)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                var cmd = new SqlCommand("DELETE FROM Materials WHERE MaterialID=@id", conn);
+                cmd.Parameters.AddWithValue("@id", selected.MaterialID);
+                cmd.ExecuteNonQuery();
+            }
+            materials.Remove(selected);
+        }
+    }
+}
+
+// ----------------------------------------
+// 9. Окно редактирования/добавления (MaterialEditWindow.xaml.cs)
+public partial class MaterialEditWindow : Window
+{
+    private readonly string _connectionString;
+    private readonly int? _materialId;
+
+    public MaterialEditWindow(int? materialId, string connectionString)
+    {
+        InitializeComponent();
+        _connectionString = connectionString;
+        _materialId = materialId;
+        if (_materialId.HasValue)
+            LoadMaterial(_materialId.Value);
+    }
+
+    private void LoadMaterial(int id)
+    {
+        using (var conn = new SqlConnection(_connectionString))
+        {
+            conn.Open();
+            var cmd = new SqlCommand("SELECT MaterialName, UnitPrice FROM Materials WHERE MaterialID=@id", conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    textBoxName.Text = reader["MaterialName"].ToString();
+                    textBoxPrice.Text = reader["UnitPrice"].ToString();
+                }
+            }
+        }
+    }
+
+    private void buttonSave_Click(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(textBoxName.Text) || string.IsNullOrWhiteSpace(textBoxPrice.Text))
+        {
+            MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+        if (!decimal.TryParse(textBoxPrice.Text, out decimal price))
+        {
+            MessageBox.Show("Некорректная цена.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        using (var conn = new SqlConnection(_connectionString))
+        {
+            conn.Open();
+            SqlCommand cmd;
+            if (_materialId.HasValue)
+            {
+                cmd = new SqlCommand("UPDATE Materials SET MaterialName=@name, UnitPrice=@price WHERE MaterialID=@id", conn);
+                cmd.Parameters.AddWithValue("@id", _materialId.Value);
+            }
+            else
+            {
+                cmd = new SqlCommand("INSERT INTO Materials (MaterialName, UnitPrice) VALUES (@name, @price)", conn);
+            }
+            cmd.Parameters.AddWithValue("@name", textBoxName.Text.Trim());
+            cmd.Parameters.AddWithValue("@price", price);
+            cmd.ExecuteNonQuery();
+        }
+        DialogResult = true;
+        Close();
+    }
+}
+
+// ----------------------------------------
+// 10. Кнопка отмены (закрытие окна без сохранения)
+private void buttonCancel_Click(object sender, RoutedEventArgs e)
+{
+    DialogResult = false;
+    Close();
+}
+
+// ----------------------------------------
+// 11. Оформление шрифтов и цветов в XAML (пример)
+/*
+<Window ... Background="White">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#AED0FF"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#1D476B"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+</Window>
+*/
+
