@@ -1,0 +1,400 @@
+USE [WarehouseMaterials]
+GO
+/****** Object:  Table [dbo].[MaterialProducts]    Script Date: 21.05.2025 15:02:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MaterialProducts](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[MaterialID] [int] NOT NULL,
+	[ProductID] [int] NOT NULL,
+	[QuantityRequired] [decimal](10, 2) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Materials]    Script Date: 21.05.2025 15:02:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Materials](
+	[MaterialID] [int] IDENTITY(1,1) NOT NULL,
+	[MaterialName] [nvarchar](255) NOT NULL,
+	[MaterialTypeID] [int] NOT NULL,
+	[UnitPrice] [decimal](10, 2) NULL,
+	[QuantityInStock] [decimal](10, 2) NULL,
+	[MinimumQuantity] [decimal](10, 2) NULL,
+	[PackageQuantity] [decimal](10, 2) NULL,
+	[UnitID] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MaterialID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MaterialTypes]    Script Date: 21.05.2025 15:02:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MaterialTypes](
+	[MaterialTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[MaterialTypeName] [nvarchar](100) NOT NULL,
+	[LossPercent] [decimal](5, 2) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MaterialTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Products]    Script Date: 21.05.2025 15:02:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Products](
+	[ProductID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductName] [nvarchar](255) NOT NULL,
+	[ProductTypeID] [int] NOT NULL,
+	[Article] [nvarchar](20) NULL,
+	[PartnerPrice] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProductTypes]    Script Date: 21.05.2025 15:02:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductTypes](
+	[ProductTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductTypeName] [nvarchar](100) NOT NULL,
+	[TypeCoefficient] [decimal](10, 2) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProductTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Units]    Script Date: 21.05.2025 15:02:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Units](
+	[UnitID] [int] IDENTITY(1,1) NOT NULL,
+	[UnitName] [nvarchar](20) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UnitID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[MaterialProducts] ON 
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (2, 4, 1, CAST(0.85 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (3, 10, 1, CAST(1.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (4, 11, 1, CAST(1.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (5, 12, 1, CAST(1.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (6, 14, 1, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (7, 16, 1, CAST(5.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (8, 17, 1, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (9, 18, 1, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (10, 19, 1, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (11, 4, 2, CAST(1.25 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (12, 9, 2, CAST(3.04 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (13, 11, 2, CAST(1.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (14, 12, 2, CAST(2.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (15, 14, 2, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (16, 16, 2, CAST(5.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (17, 17, 3, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (18, 16, 3, CAST(5.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (19, 14, 3, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (20, 19, 3, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (21, 18, 3, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (22, 5, 4, CAST(3.33 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (23, 20, 4, CAST(6.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (24, 2, 5, CAST(2.90 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (25, 3, 5, CAST(1.70 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (26, 6, 5, CAST(2.70 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (27, 8, 5, CAST(1.80 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (28, 2, 6, CAST(1.70 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (29, 3, 6, CAST(1.60 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (30, 8, 6, CAST(1.80 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (31, 5, 7, CAST(2.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (33, 20, 7, CAST(7.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (34, 7, 7, CAST(0.80 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (35, 6, 8, CAST(5.95 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (36, 15, 8, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (37, 5, 9, CAST(4.30 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (38, 20, 9, CAST(8.60 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (39, 6, 10, CAST(7.65 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (40, 8, 10, CAST(1.05 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (41, 15, 10, CAST(1.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (42, 5, 11, CAST(6.40 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (43, 20, 11, CAST(6.20 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (44, 4, 12, CAST(2.55 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (45, 5, 12, CAST(5.22 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (46, 20, 12, CAST(9.40 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (47, 1, 13, CAST(3.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (48, 3, 13, CAST(1.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (49, 8, 13, CAST(2.10 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (50, 13, 13, CAST(0.80 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (51, 1, 14, CAST(7.70 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (52, 3, 14, CAST(6.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (53, 5, 14, CAST(4.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (54, 6, 14, CAST(5.70 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (55, 8, 14, CAST(2.30 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (56, 9, 14, CAST(1.74 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (57, 5, 15, CAST(4.20 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (58, 7, 15, CAST(2.21 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (59, 16, 15, CAST(4.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (60, 20, 15, CAST(6.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (61, 2, 16, CAST(0.40 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (62, 16, 16, CAST(4.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (63, 3, 17, CAST(0.70 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (64, 5, 17, CAST(7.65 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (65, 7, 17, CAST(0.80 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (66, 20, 17, CAST(6.30 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (67, 3, 18, CAST(3.20 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (68, 4, 18, CAST(3.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (69, 7, 18, CAST(1.60 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (70, 13, 18, CAST(1.60 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (71, 3, 19, CAST(1.30 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (72, 5, 19, CAST(8.20 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (73, 8, 19, CAST(1.30 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (74, 1, 20, CAST(1.80 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (75, 3, 20, CAST(3.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (76, 8, 20, CAST(1.65 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[MaterialProducts] ([ID], [MaterialID], [ProductID], [QuantityRequired]) VALUES (77, 13, 20, CAST(1.60 AS Decimal(10, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[MaterialProducts] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Materials] ON 
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (1, N'Цельный массив дерева Дуб 1000х600 мм', 1, CAST(7450.00 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(500.00 AS Decimal(10, 2)), CAST(7.20 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (2, N'Клееный массив дерева Дуб 1000х600 мм', 1, CAST(4520.00 AS Decimal(10, 2)), CAST(300.00 AS Decimal(10, 2)), CAST(500.00 AS Decimal(10, 2)), CAST(7.20 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (3, N'Шпон облицовочный Дуб натуральный 2750х480 мм', 1, CAST(2500.00 AS Decimal(10, 2)), CAST(2000.00 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(19.80 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (4, N'Фанера 2200х1000 мм', 2, CAST(2245.00 AS Decimal(10, 2)), CAST(450.00 AS Decimal(10, 2)), CAST(1000.00 AS Decimal(10, 2)), CAST(52.80 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (5, N'ДСП 2750х1830 мм', 2, CAST(529.60 AS Decimal(10, 2)), CAST(1010.00 AS Decimal(10, 2)), CAST(1200.00 AS Decimal(10, 2)), CAST(181.08 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (6, N'МДФ 2070х1400 мм', 2, CAST(417.24 AS Decimal(10, 2)), CAST(1550.00 AS Decimal(10, 2)), CAST(1000.00 AS Decimal(10, 2)), CAST(87.00 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (7, N'ДВП 2440х2050 мм', 2, CAST(187.00 AS Decimal(10, 2)), CAST(1310.00 AS Decimal(10, 2)), CAST(1000.00 AS Decimal(10, 2)), CAST(190.00 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (8, N'ХДФ 2800x2070 мм', 2, CAST(370.96 AS Decimal(10, 2)), CAST(1400.00 AS Decimal(10, 2)), CAST(1200.00 AS Decimal(10, 2)), CAST(90.00 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (9, N'Экокожа 140 см', 3, CAST(1600.00 AS Decimal(10, 2)), CAST(1200.00 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), 2)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (10, N'Велюр 140 см', 3, CAST(1300.00 AS Decimal(10, 2)), CAST(1300.00 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), 2)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (11, N'Шенилл 140 см', 3, CAST(620.00 AS Decimal(10, 2)), CAST(950.00 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), 2)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (12, N'Рогожка 140 см', 3, CAST(720.00 AS Decimal(10, 2)), CAST(960.00 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), 2)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (13, N'Закаленное стекло 2600х1800 мм', 4, CAST(1148.00 AS Decimal(10, 2)), CAST(1000.00 AS Decimal(10, 2)), CAST(500.00 AS Decimal(10, 2)), CAST(196.56 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (14, N'Металлокаркас для стула', 5, CAST(1100.00 AS Decimal(10, 2)), CAST(300.00 AS Decimal(10, 2)), CAST(250.00 AS Decimal(10, 2)), CAST(5.00 AS Decimal(10, 2)), 3)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (15, N'Металлокаркас каркас из профиля с траверсами для стола', 5, CAST(6700.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), CAST(1.00 AS Decimal(10, 2)), 3)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (16, N'Колесо для мебели поворотное', 6, CAST(10.59 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(1000.00 AS Decimal(10, 2)), CAST(500.00 AS Decimal(10, 2)), 3)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (17, N'Газ-лифт', 5, CAST(730.00 AS Decimal(10, 2)), CAST(500.00 AS Decimal(10, 2)), CAST(250.00 AS Decimal(10, 2)), CAST(5.00 AS Decimal(10, 2)), 3)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (18, N'Металлическая крестовина для офисных кресел', 5, CAST(2700.00 AS Decimal(10, 2)), CAST(500.00 AS Decimal(10, 2)), CAST(250.00 AS Decimal(10, 2)), CAST(5.00 AS Decimal(10, 2)), 3)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (19, N'Пластиковый комплект для стула', 6, CAST(900.00 AS Decimal(10, 2)), CAST(300.00 AS Decimal(10, 2)), CAST(250.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), 3)
+GO
+INSERT [dbo].[Materials] ([MaterialID], [MaterialName], [MaterialTypeID], [UnitPrice], [QuantityInStock], [MinimumQuantity], [PackageQuantity], [UnitID]) VALUES (20, N'Кромка ПВХ', 6, CAST(35.80 AS Decimal(10, 2)), CAST(1500.00 AS Decimal(10, 2)), CAST(1000.00 AS Decimal(10, 2)), CAST(100.00 AS Decimal(10, 2)), 4)
+GO
+SET IDENTITY_INSERT [dbo].[Materials] OFF
+GO
+SET IDENTITY_INSERT [dbo].[MaterialTypes] ON 
+GO
+INSERT [dbo].[MaterialTypes] ([MaterialTypeID], [MaterialTypeName], [LossPercent]) VALUES (1, N'Дерево', CAST(0.55 AS Decimal(5, 2)))
+GO
+INSERT [dbo].[MaterialTypes] ([MaterialTypeID], [MaterialTypeName], [LossPercent]) VALUES (2, N'Древесная плита', CAST(0.30 AS Decimal(5, 2)))
+GO
+INSERT [dbo].[MaterialTypes] ([MaterialTypeID], [MaterialTypeName], [LossPercent]) VALUES (3, N'Текстиль', CAST(0.15 AS Decimal(5, 2)))
+GO
+INSERT [dbo].[MaterialTypes] ([MaterialTypeID], [MaterialTypeName], [LossPercent]) VALUES (4, N'Стекло', CAST(0.45 AS Decimal(5, 2)))
+GO
+INSERT [dbo].[MaterialTypes] ([MaterialTypeID], [MaterialTypeName], [LossPercent]) VALUES (5, N'Металл', CAST(0.10 AS Decimal(5, 2)))
+GO
+INSERT [dbo].[MaterialTypes] ([MaterialTypeID], [MaterialTypeName], [LossPercent]) VALUES (6, N'Пластик', CAST(0.05 AS Decimal(5, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[MaterialTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Products] ON 
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (1, N'Кресло детское цвет Белый и Розовый', 1, N'3028272', CAST(15324.99 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (2, N'Кресло офисное цвет Черный', 1, N'3018556', CAST(21443.99 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (3, N'Кресло эргономичное цвет Темно-коричневый', 1, N'3549922', CAST(24760.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (4, N'Полка настольная', 2, N'7028048', CAST(2670.89 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (5, N'Стеллаж для документов цвет Дуб светлый 854х445х2105 мм', 3, N'5759324', CAST(24899.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (6, N'Стеллаж цвет Белый с ящиками 854х445х2105 мм', 3, N'5259474', CAST(16150.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (7, N'Стеллаж цвет Орех 400х370х2000 мм', 3, N'5118827', CAST(2860.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (8, N'Стол для ноутбука на металлокаркасе 800х600х123 мм', 4, N'1029784', CAST(14690.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (9, N'Стол компьютерный 700х600х500 мм', 4, N'1028248', CAST(4105.89 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (10, N'Стол компьютерный на металлокаркасе 1400х600х750 мм', 4, N'1130981', CAST(13899.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (11, N'Стол письменный 1100x750x600 мм', 4, N'1188827', CAST(5148.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (12, N'Стол письменный с тумбочкой 4 ящика 1100x750x600 мм', 4, N'1029272', CAST(15325.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (13, N'Стол руководителя письменный цвет Венге 1600x800x764 мм', 4, N'1016662', CAST(43500.90 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (14, N'Стол руководителя письменный цвет Орех темный 2300x1000x750 мм', 4, N'1658953', CAST(132500.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (15, N'Тумба выкатная 3 ящика', 5, N'6033136', CAST(3750.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (16, N'Тумба офисная для оргтехники', 5, N'6115947', CAST(2450.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (17, N'Узкий пенал стеллаж 5 полок цвет Орех 364х326x2000 мм', 3, N'5559898', CAST(8348.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (18, N'Шкаф для книг 800x420x2000 мм', 6, N'4159043', CAST(23390.99 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (19, N'Шкаф для одежды цвет Венге 602x420x2000 мм', 6, N'4758375', CAST(12035.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductName], [ProductTypeID], [Article], [PartnerPrice]) VALUES (20, N'Шкаф-витрина 2 ящика 800x420x2000 мм', 6, N'4588376', CAST(31991.00 AS Decimal(10, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[Products] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ProductTypes] ON 
+GO
+INSERT [dbo].[ProductTypes] ([ProductTypeID], [ProductTypeName], [TypeCoefficient]) VALUES (1, N'Кресла', CAST(1.95 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[ProductTypes] ([ProductTypeID], [ProductTypeName], [TypeCoefficient]) VALUES (2, N'Полки', CAST(2.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[ProductTypes] ([ProductTypeID], [ProductTypeName], [TypeCoefficient]) VALUES (3, N'Стеллажи', CAST(4.35 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[ProductTypes] ([ProductTypeID], [ProductTypeName], [TypeCoefficient]) VALUES (4, N'Столы', CAST(5.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[ProductTypes] ([ProductTypeID], [ProductTypeName], [TypeCoefficient]) VALUES (5, N'Тумбы', CAST(7.60 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[ProductTypes] ([ProductTypeID], [ProductTypeName], [TypeCoefficient]) VALUES (6, N'Шкафы', CAST(6.72 AS Decimal(10, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[ProductTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Units] ON 
+GO
+INSERT [dbo].[Units] ([UnitID], [UnitName]) VALUES (1, N'м2')
+GO
+INSERT [dbo].[Units] ([UnitID], [UnitName]) VALUES (2, N'пог.м')
+GO
+INSERT [dbo].[Units] ([UnitID], [UnitName]) VALUES (3, N'шт')
+GO
+INSERT [dbo].[Units] ([UnitID], [UnitName]) VALUES (4, N'м')
+GO
+SET IDENTITY_INSERT [dbo].[Units] OFF
+GO
+ALTER TABLE [dbo].[MaterialProducts]  WITH CHECK ADD FOREIGN KEY([MaterialID])
+REFERENCES [dbo].[Materials] ([MaterialID])
+GO
+ALTER TABLE [dbo].[MaterialProducts]  WITH CHECK ADD FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Products] ([ProductID])
+GO
+ALTER TABLE [dbo].[Materials]  WITH CHECK ADD FOREIGN KEY([MaterialTypeID])
+REFERENCES [dbo].[MaterialTypes] ([MaterialTypeID])
+GO
+ALTER TABLE [dbo].[Materials]  WITH CHECK ADD FOREIGN KEY([UnitID])
+REFERENCES [dbo].[Units] ([UnitID])
+GO
+ALTER TABLE [dbo].[Products]  WITH CHECK ADD FOREIGN KEY([ProductTypeID])
+REFERENCES [dbo].[ProductTypes] ([ProductTypeID])
+GO
